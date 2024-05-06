@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  Build And Publish:
+  Build_And_Publish:
     name: 🎉 Build And Publish
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +42,7 @@ jobs:
   Release:
     runs-on: ubuntu-latest
     name: 🚀 Release
-    needs: Build And Publish
+    needs: Build_And_Publish
     steps:
       - uses: actions/checkout@v4
 
