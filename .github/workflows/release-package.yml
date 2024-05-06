@@ -2,7 +2,7 @@ name: Build and Publish (Cache with actions/cache@v3)
 
 on:
   push:
-    branches: [ main ]  # You can adjust the branch to trigger the build
+    branches: [ main ]
 
 jobs:
   build:
@@ -17,35 +17,36 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Restore cache (optional)
+      # Restore cache
       - name: Restore cache
         uses: actions/cache@v3
         with:
-          path: ~/.docker/cache  # Path to the cache directory
-          key: ${{ runner.os }}-docker-${{ github.repository }}-build  # Unique cache key
-          restore-keys: |   # List of cache keys to restore from
+          path: ~/.docker/cache
+          key: ${{ runner.os }}-docker-${{ github.repository }}-build
+          restore-keys: |
             ${{ runner.os }}-docker-${{ github.repository }}-build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
-          driver: docker-container  # Default driver, can be omitted
-          driver-opts: |  # Driver options (specifying Buildkit image)
+          driver: docker-container
+          driver-opts: |  # Driver options
             image=moby/buildkit:master
           platforms: linux/amd64,linux/arm64  # Platforms to build for
 
       # Build Docker image (multi-platform with Buildx)
       - name: Build and push Docker image
-        run: |
-          # Build and push Docker image
-          docker build --push . -t ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/linktobio-maker:v1.0.0
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}/$(basename ${{ github.repository }}):latest
 
-
-      # Save cache (optional)
+      # Save cache
       - name: Save cache
         uses: actions/cache@v3
         with:
-          path: ~/.docker/cache  # Path to the cache directory
-          key: ${{ runner.os }}-docker-${{ github.repository }}-build  # Unique cache key
-          push-keys: |   # List of cache keys to save
+          path: ~/.docker/cache
+          key: ${{ runner.os }}-docker-${{ github.repository }}-build
+          push-keys: |
             ${{ runner.os }}-docker-${{ github.repository }}-build
