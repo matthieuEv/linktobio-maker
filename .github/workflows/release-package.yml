@@ -13,8 +13,9 @@ jobs:
       # Login to GitHub Packages
       - uses: docker/login-action@v3.1.0
         with:
-          registry: ${{ secrets.REGISTRY_URL }}  # Replace with your GitHub Packages URL
-          login_password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       # Restore cache (optional)
       - name: Restore cache
