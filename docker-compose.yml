@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  web:
+    image: ghcr.io/matthieuev/linktobio-maker:v1.0.0
+    volumes:
+      - ./linktobio-maker/template.json:./app/template.json
+    ports:
+      - "80:80"
+    restart: unless-stopped

@@ -1,0 +1,48 @@
+name: Build and Publish (Cache with actions/cache@v3)
+
+on:
+  push:
+    branches: [ main ]  # You can adjust the branch to trigger the build
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Login to GitHub Packages
+      - uses: docker/login@v2
+        with:
+          registry: ${{ secrets.REGISTRY_URL }}  # Replace with your GitHub Packages URL
+          login_password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Restore cache (optional)
+      - name: Restore cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.docker/cache  # Path to the cache directory
+          key: ${{ runner.os }}-docker-${{ github.repository }}-build  # Unique cache key
+          restore-keys: |   # List of cache keys to restore from
+            ${{ runner.os }}-docker-${{ github.repository }}-build
+
+      - name: Install Docker Buildx
+        run: |
+          # Install Docker Buildx
+          curl -sSL https://docs.docker.com/get-docker-buildx | bash -s -- --version latest
+
+          # Add Docker Buildx to PATH
+          echo "export PATH=\$HOME/.docker/buildx:\$PATH" >> $HOME/.bashrc
+
+      - name: Build Docker image (multi-platform with Buildx cache)
+        run: |
+          docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 . \
+            -t ghcr.io/${{ github.repository_owner }}/linktobio-maker:v1.0.0
+
+      # Save cache (optional)
+      - name: Save cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.docker/cache  # Path to the cache directory
+          key: ${{ runner.os }}-docker-${{ github.repository }}-build  # Unique cache key
+          push-keys: |   # List of cache keys to save
+            ${{ runner.os }}-docker-${{ github.repository }}-build
