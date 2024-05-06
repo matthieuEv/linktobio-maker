@@ -37,11 +37,8 @@ jobs:
       # Build Docker image (multi-platform with Buildx)
       - name: Build and push Docker image
         run: |
-          # Set environment variable for image repository (lowercase)
-          echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
-
           # Build and push Docker image
-          docker build --push . -t ghcr.io/$IMAGE_REPOSITORY/linktobio-maker:v1.0.0
+          docker build --push . -t ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')/linktobio-maker:v1.0.0
 
 
       # Save cache (optional)
