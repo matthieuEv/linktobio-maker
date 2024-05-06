@@ -10,7 +10,6 @@
 }
 
 body{
-  // background-color: var(--black);
   color: var(--white);
   padding: 0;
   margin: 0;
@@ -18,13 +17,13 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  background-attachment: fixed;
 }
 
 #app{
   display: flex;
   flex-direction: column;
-  padding: calc(10vh / 2) 0;
+  margin: calc(10vh / 2) 0;
   width: 33vw;
 }
 
