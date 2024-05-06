@@ -18,7 +18,7 @@ jobs:
 
       # Restore cache (optional)
       - name: Restore cache
-        uses: actions/cache@v3
+        uses: docker/login-action@v3.1.0
         with:
           path: ~/.docker/cache  # Path to the cache directory
           key: ${{ runner.os }}-docker-${{ github.repository }}-build  # Unique cache key
