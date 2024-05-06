@@ -1,11 +1,36 @@
 <script>
     //https://simpleicons.org/
     import data from '../template.json'
+    let logo;
+    let content;
+    
+    if(data.settings.logo){
+        logo = data.settings.logo
+    } else {
+        logo = "../public/logo.png"
+    }
+    
+    if (data.content && Object.keys(data.content).length > 0) {
+        content = data.content
+    } else {
+        content = {"My Links":data.quickLinks}
+    }
+
+    if (data.settings.background && typeof data.settings.background === "string") {
+        if (/^#[0-9a-fA-F]{6}$/.test(data.settings.background)) {
+            document.body.style.backgroundColor = data.settings.background;
+        } else if (/^https?:\/\/[^\s]+/i.test(data.settings.background)) {
+            document.body.style.backgroundImage = `url(${data.settings.background})`;
+            document.body.style.backgroundSize = "cover";
+        }
+    } else {
+        document.body.style.backgroundColor = "var(--black)";
+    }
 </script>
 
 <svelte:head>
     <title>{data.name}</title>
-    <link rel="icon" href={data.logo} type="image/png">
+    <link rel="icon" href={logo} type="image/png">
 </svelte:head>
 
 <main>
@@ -22,7 +47,7 @@
         {/each}
     </div>
     <div id="content">
-        {#each Object.entries(data.content) as [key, val]}
+        {#each Object.entries(content) as [key, val]}
             <div id="block">
                 <h2>{key}</h2>
                 <ul>
@@ -46,8 +71,9 @@
         flex-direction: column;
         align-items: center;
         padding: 10vh 0;
-        background-color: var(--white);
         border-radius: 2em;
+        background-color: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         
         #profile-pic{
             width: 150px;

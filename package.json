@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "host": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -14,6 +15,7 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
+    "localtunnel": "^2.0.2",
     "sass": "^1.76.0"
   }
 }
