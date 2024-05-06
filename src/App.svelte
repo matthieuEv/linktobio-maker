@@ -1,57 +1,74 @@
 <script>
-    //https://simpleicons.org/
-    import data from '../template.json'
+    let data;
     let logo;
     let content;
-    
-    if(data.settings.logo){
-        logo = data.settings.logo
-    } else {
-        logo = "../public/logo.png"
-    }
-    
-    if (data.content && Object.keys(data.content).length > 0) {
-        content = data.content
-    } else {
-        content = {"My Links":data.quickLinks}
+
+    // Charger les données de manière asynchrone
+    async function loadData() {
+        const response = await fetch('../template.json');
+        data = await response.json();
+
+        if(data.settings.logo){
+            logo = data.settings.logo
+        } else {
+            logo = "../public/logo.png"
+        }
+        
+        if (data.content && Object.keys(data.content).length > 0) {
+            content = data.content
+        } else {
+            content = {"My Links":data.quickLinks}
+        }
+
+        if (data.settings.background && typeof data.settings.background === "string") {
+            if (/^#[0-9a-fA-F]{6}$/.test(data.settings.background)) {
+                document.body.style.backgroundColor = data.settings.background;
+            } else if (/^https?:\/\/[^\s]+/i.test(data.settings.background)) {
+                document.body.style.backgroundImage = `url(${data.settings.background})`;
+                document.body.style.backgroundSize = "cover";
+            }
+        } else {
+            document.body.style.backgroundColor = "var(--black)";
+        }
+
+        if (data.settings.primaryColor) {
+            document.documentElement.style.setProperty('--primary-color', data.settings.primaryColor);
+        }
+        if (data.settings.secondaryColor) {
+            document.documentElement.style.setProperty('--secondary-color', data.settings.secondaryColor);
+        }
+        if (data.settings.tertiaryColor) {
+            document.documentElement.style.setProperty('--tertiary-color', data.settings.tertiaryColor);
+        }
     }
 
-    if (data.settings.background && typeof data.settings.background === "string") {
-        if (/^#[0-9a-fA-F]{6}$/.test(data.settings.background)) {
-            document.body.style.backgroundColor = data.settings.background;
-        } else if (/^https?:\/\/[^\s]+/i.test(data.settings.background)) {
-            document.body.style.backgroundImage = `url(${data.settings.background})`;
-            document.body.style.backgroundSize = "cover";
-        }
-    } else {
-        document.body.style.backgroundColor = "var(--black)";
-    }
+    loadData();
 </script>
 
 <svelte:head>
-    <title>{data.name}</title>
+    <title>{data ? data.name : 'Loading...'}</title>
     <link rel="icon" href={logo} type="image/png">
 </svelte:head>
 
 <main>
     <img id="profile-pic"
-        src={data.profilPicture}
-        alt={data.name}   
+        src={data ? data.profilPicture : 'Loading...'}
+        alt={data ? data.name : 'Loading...'}   
     >
-    <h1>Jhon Doe</h1>
+    <h1>{data ? data.name : 'Loading...'}</h1>
     <div id="quick-links">
-        {#each Object.entries(data.quickLinks) as [key, value]}
+        {#each Object.entries(data ? data.quickLinks : {}) as [key, value]}
             <a href={value} target="_blank">
                 <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
             </a>
         {/each}
     </div>
     <div id="content">
-        {#each Object.entries(content) as [key, val]}
+        {#each Object.entries(data ? content : {}) as [key, val]}
             <div id="block">
                 <h2>{key}</h2>
                 <ul>
-                    {#each Object.entries(val) as [key, value]}
+                    {#each Object.entries(data ? val : {}) as [key, value]}
                         <li>
                             <a href={value}>
                                 <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
@@ -85,7 +102,7 @@
             margin: 10px 0;
             font-size: 24px;
             font-weight: 400;
-            color: var(--quaternary-color);
+            color: var(--primary-color);
         }
 
         #quick-links {
@@ -118,7 +135,7 @@
                 h2{
                     font-size: 24px;
                     font-weight: 400;
-                    color: var(--quaternary-color);
+                    color: var(--primary-color);
                     display: flex;
                 }
 
@@ -135,9 +152,14 @@
                     li{
                         width: 100%;
                         height: 52px;
-                        background-color: var(--tertiary-color);
+                        background-color: var(--secondary-color);
                         border-radius: 1em;
                         overflow: hidden;
+                        transition: .2s;
+
+                        &:hover{
+                            background-color: var(--tertiary-color);
+                        }
                         
                         a{
                             display: flex;
