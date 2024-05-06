@@ -26,18 +26,19 @@ jobs:
           restore-keys: |   # List of cache keys to restore from
             ${{ runner.os }}-docker-${{ github.repository }}-build
 
-      - name: Install Docker Buildx
-        run: |
-          # Install Docker Buildx
-          curl -sSL https://docs.docker.com/get-docker-buildx | bash -s -- --version latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker-container  # Default driver, can be omitted
+          driver-opts: |  # Driver options (specifying Buildkit image)
+            image=moby/buildkit:master
+          platforms: linux/amd64,linux/arm64  # Platforms to build for
 
-          # Add Docker Buildx to PATH
-          echo "export PATH=\$HOME/.docker/buildx:\$PATH" >> $HOME/.bashrc
-
-      - name: Build Docker image (multi-platform with Buildx cache)
+      # Build Docker image (multi-platform with Buildx)
+      - name: Build and push Docker image
         run: |
-          docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 . \
-            -t ghcr.io/${{ github.repository_owner }}/linktobio-maker:v1.0.0
+          docker build --push . \
+            -t ghcr.io/${{ github.repository }}/linktobio-maker:v1.0.0
 
       # Save cache (optional)
       - name: Save cache
