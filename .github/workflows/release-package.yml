@@ -26,7 +26,9 @@ jobs:
           platforms: linux/amd64,linux/arm64  # Platforms to build for
         
       - name: Set repo name
-        run: echo "REPO_NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+        run: |
+          echo "REPO_NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
+          echo "REPO=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       # Build Docker image (multi-platform with Buildx)
       - name: Build and push Docker image
@@ -34,4 +36,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/${{ env.REPO_NAME }}:latest
+          tags: ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:latest
