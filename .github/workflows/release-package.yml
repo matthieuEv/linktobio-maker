@@ -2,7 +2,9 @@ name: Build, Publish and Release
 
 on:
   push:
-    branches: [ main ]
+    tags:
+      - '*'
+  workflow_dispatch:
 
 jobs:
   Build_And_Publish:
@@ -29,6 +31,9 @@ jobs:
           echo "REPO_NAME=$(basename ${{ github.repository }})" >> $GITHUB_ENV
           echo "REPO=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
           echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo ${{ env.REPO_NAME }}
+          echo ${{ env.REPO }}
+          echo ${{ env.TAG_NAME }}
 
       # Build Docker image (multi-platform with Buildx)
       - name: Build and push Docker image
@@ -36,7 +41,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:latest
+          tags: |
+            ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:${{ env.TAG_NAME }}
+            ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:latest
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
 
   Release:
@@ -58,7 +65,8 @@ jobs:
 
       - name: Archive build artifacts
         run: |
-          tar -czvf build.tar.gz ./build
+          ls -la
+          tar -czvf build.tar.gz ./dist
 
       - name: Release
         uses: softprops/action-gh-release@v2
