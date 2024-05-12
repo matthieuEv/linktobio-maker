@@ -37,13 +37,11 @@ jobs:
           npm install
           npm run build
           cd ..
-          ls -la
-          ls -la examples
-          ls -la examples/dist
           mkdir dist
           cp -r examples/dist/* dist
-          cp template1.json dist
-          cp template2.json dist
+          ls -la
+          cp -r template1.json dist/template1.json
+          cp -r template2.json dist/template2.json
           ls -la dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
