@@ -1,0 +1,21 @@
+{
+    "name": "Janis Doe",
+    "profilPicture": "https://thispersondoesnotexist.com",
+    "quickLinks":{
+        "github": "https://github.com",
+        "linkedin": "https://www.linkedin.com/",
+        "youtube":"https://www.youtube.com/"
+    },
+    "content":{
+        "My Socials":{
+            "github": "https://github.com/matthieuEv",
+            "linkedin": "https://www.linkedin.com/in/matthieuev/",
+            "youtube":"https://www.youtube.com/@themattnifique",
+            "instagram":"https://www.instagram.com/"
+        }
+    },
+    "settings":{
+        "background":"https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "logo":"https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
+    }
+}

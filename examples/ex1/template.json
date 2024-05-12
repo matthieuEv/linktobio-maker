@@ -1,0 +1,30 @@
+{
+    "name": "Jhon Doe",
+    "profilPicture": "https://thispersondoesnotexist.com",
+    "quickLinks":{
+        "github": "https://github.com",
+        "linkedin": "https://www.linkedin.com/",
+        "youtube":"https://www.youtube.com/"
+    },
+    "content":{
+        "My Socials":{
+            "github": "https://github.com/matthieuEv",
+            "linkedin": "https://www.linkedin.com/in/matthieuev/",
+            "youtube":"https://www.youtube.com/@themattnifique",
+            "instagram":"https://www.instagram.com/"
+        },
+        "My Shops":{
+            "amazon": "https://www.amazon.com",
+            "ebay": "https://www.ebay.com",
+            "etsy":"https://www.etsy.com"
+        },
+        "My Blogs":{
+            "medium": "https://medium.com",
+            "devdotto": "https://dev.to",
+            "hashnode":"https://hashnode.com"
+        }
+    },
+    "settings":{
+        "background":"https://img.freepik.com/photos-gratuite/peinture-lac-montagne-montagne-arriere-plan_188544-9126.jpg?t=st=1715518078~exp=1715521678~hmac=df7faa89e3d86bf148dc018cae8b44a8cd498000b3eb6c7dafd6ab876d7285e6&w=1380"
+    }
+}
