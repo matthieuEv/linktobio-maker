@@ -38,9 +38,10 @@ jobs:
 
       - name: Copy files to examples
         run: |
-          cp -R dist/* examples/ex1
-          cp -R dist/* examples/ex2
-          
+          ls -la
+          cp -R dist/* examples/ex1/
+          cp -R dist/* examples/ex2/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
