@@ -34,14 +34,14 @@ jobs:
       - name: Build
         run: |
           cd examples
-          mkdir dist
           npm install
           npm run build
           cd ..
           ls -la
           ls -la examples
           ls -la examples/dist
-          cp -r examples/dist/* dist/
+          mkdir dist
+          cp -r examples/dist/* dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
