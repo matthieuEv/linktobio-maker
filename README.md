@@ -5,6 +5,7 @@
 </p>
 
 ![GitHub Release](https://img.shields.io/github/v/release/matthieuEv/linktobio-maker?sort=semver&display_name=release&style=for-the-badge&logo=githubactions)
+[![Static Badge](https://img.shields.io/badge/Example-blue?style=for-the-badge)](https://matthieuev.github.io/linktobio-maker/)
 
 
 # LinkToBio Maker
