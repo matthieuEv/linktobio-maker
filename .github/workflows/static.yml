@@ -37,6 +37,8 @@ jobs:
           mkdir dist
           npm install
           npm run build
+          ls -la
+          ls -la examples
           ls -la examples/dist
           cp -r examples/dist/* dist/
       - name: Upload artifact
