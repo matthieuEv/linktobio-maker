@@ -3,7 +3,7 @@ name: Build, Publish and Release
 on:
   push:
     tags:
-      - '*'
+      - v[0-9]+.[0-9]+.[0-9]+
   workflow_dispatch:
 
 jobs:
@@ -42,8 +42,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:${{ env.TAG_NAME }}
-            ghcr.io/${{ env.REPO }}/${{ env.REPO_NAME }}:latest
+            ghcr.io/${{ env.REPO_NAME }}:${{ env.TAG_NAME }}
+            ghcr.io/${{ env.REPO_NAME }}:latest
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
 
   Release:
@@ -52,6 +52,8 @@ jobs:
     needs: Build_And_Publish
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -63,10 +65,32 @@ jobs:
           npm ci
           npm run build
 
-      - name: Archive build artifacts
+      - name: Dist dir to tar.gz
         run: |
           ls -la
-          tar -czvf build.tar.gz ./dist
+          tar -czvf dist.tar.gz dist
+
+      - name: Dist directory to zip
+        uses: montudor/action-zip@v1
+        with:
+          args:
+            zip -qq -r dist.zip dist
+
+      - name: Get previous tag
+        id: previousTag
+        run: |
+          name=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
+          echo "previousTag: $name"
+          echo "previousTag=$name" >> $GITHUB_ENV
+
+      - name: Generate CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ env.previousTag }}
+          writeToFile: false
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -75,6 +99,11 @@ jobs:
           release_name: Release ${{ env.TAG_NAME }}
           body: |
             To know more about this release, please refer to the README.
+
+            **Changelog:**
+            ${{ steps.changelog.outputs.changes }}
           draft: false
           prerelease: false
-          files: ./build.tar.gz
+          files: |
+            dist.tar.gz
+            dist.zip
