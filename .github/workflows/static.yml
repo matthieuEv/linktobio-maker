@@ -37,6 +37,7 @@ jobs:
           mkdir dist
           npm install
           npm run build
+          cd ..
           ls -la
           ls -la examples
           ls -la examples/dist
