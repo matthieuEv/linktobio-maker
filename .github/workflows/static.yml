@@ -40,8 +40,8 @@ jobs:
           mkdir dist
           cp -r examples/dist/* dist
           ls -la
-          cp -r template1.json dist/template1.json
-          cp -r template2.json dist/template2.json
+          cp -r examples/template1.json dist/template1.json
+          cp -r examples/template2.json dist/template2.json
           ls -la dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
