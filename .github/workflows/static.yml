@@ -34,12 +34,15 @@ jobs:
       - name: Build
         run: |
           cd examples
+          mkdir dist
           npm install
           npm run build
+          ls -la examples/dist
+          cp -r examples/dist/* dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'examples/dist'
+          path: 'dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
