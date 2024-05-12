@@ -33,19 +33,13 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build
         run: |
+          cd examples
           npm install
           npm run build
-
-      - name: Copy files to examples
-        run: |
-          ls -la
-          cp -R dist/* examples/ex1/
-          cp -R dist/* examples/ex2/
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'examples'
+          path: 'examples/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

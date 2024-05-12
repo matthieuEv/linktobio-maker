@@ -3,9 +3,13 @@
     let logo;
     let content;
 
+    let fileExample1 = "template1.json";
+    let fileExample2 = "template2.json";
+    let currentFile = fileExample1;
+
     // Charger les données de manière asynchrone
     async function loadData() {
-        const response = await fetch('template1.json');
+        const response = await fetch(currentFile);
         data = await response.json();
 
         if(data.settings && data.settings.logo){
@@ -46,43 +50,69 @@
 </script>
 
 <svelte:head>
-    <title>{data ? data.name : 'Loading...'}</title>
-    <link rel="icon" href={logo} type="image/png">
+  <title>{data ? data.name : 'Loading...'}</title>
+  <link rel="icon" href={logo} type="image/png">
 </svelte:head>
 
+<div id="exampleNavBar">
+    <button on:click={() => {currentFile = fileExample1; loadData();}}>Example 1</button>
+    <button on:click={() => {currentFile = fileExample2; loadData();}}>Example 2</button>
+</div>
+
 <main>
-    <img id="profile-pic"
-        src={data ? data.profilPicture : 'Loading...'}
-        alt={data ? data.name : 'Loading...'}   
-    >
-    <h1>{data ? data.name : 'Loading...'}</h1>
-    <div id="quick-links">
-        {#each Object.entries(data ? data.quickLinks : {}) as [key, value]}
-            <a href={value} target="_blank">
-                <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
-            </a>
-        {/each}
-    </div>
-    <div id="content">
-        {#each Object.entries(data ? content : {}) as [key, val]}
-            <div id="block">
-                <h2>{key}</h2>
-                <ul>
-                    {#each Object.entries(data ? val : {}) as [key, value]}
-                        <li>
-                            <a href={value}>
-                                <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
-                                {key}
-                            </a>
-                        </li>
-                    {/each}
-                </ul>
-            </div>
-        {/each}
-    </div>
+  <img id="profile-pic"
+      src={data ? data.profilPicture : 'Loading...'}
+      alt={data ? data.name : 'Loading...'}   
+  >
+  <h1>{data ? data.name : 'Loading...'}</h1>
+  <div id="quick-links">
+      {#each Object.entries(data ? data.quickLinks : {}) as [key, value]}
+          <a href={value} target="_blank">
+              <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
+          </a>
+      {/each}
+  </div>
+  <div id="content">
+      {#each Object.entries(data ? content : {}) as [key, val]}
+          <div id="block">
+              <h2>{key}</h2>
+              <ul>
+                  {#each Object.entries(data ? val : {}) as [key, value]}
+                      <li>
+                          <a href={value}>
+                              <img height="32" width="32" src="https://cdn.simpleicons.org/{key}" alt={key}/>
+                              {key}
+                          </a>
+                      </li>
+                  {/each}
+              </ul>
+          </div>
+      {/each}
+  </div>
 </main>
 
 <style lang="scss">
+    #exampleNavBar{
+        position: fixed;
+        top: 5vh;
+        right: 5vh;
+        background-color: #fff;
+        border-radius: 1em;
+        padding: 10px;
+        height: 50px;
+
+        button{
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 1em;
+            background-color: var(--primary-color);
+            color: #fff;
+            cursor: pointer;
+            transition: .2s;
+            height: 100%;
+        }
+    }
     main {
         display: flex;
         flex-direction: column;
@@ -184,5 +214,5 @@
 
         }
     }
-  
+
 </style>

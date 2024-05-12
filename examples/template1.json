@@ -1,5 +1,5 @@
 {
-    "name": "Janis Doe",
+    "name": "Jane Smith",
     "profilPicture": "https://thispersondoesnotexist.com",
     "quickLinks":{
         "github": "https://github.com",
@@ -16,6 +16,9 @@
     },
     "settings":{
         "background":"https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        "logo":"https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png"
+        "logo":"https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png",
+        "primaryColor":"#242424",
+        "secondaryColor":"#e6e6e6",
+        "tertiaryColor":"#bdb8f5"
     }
 }
