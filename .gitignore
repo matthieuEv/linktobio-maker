@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 template.json
+
+examples/*
+!examples/index.html
