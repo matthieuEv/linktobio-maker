@@ -5,7 +5,7 @@
 
     // Charger les données de manière asynchrone
     async function loadData() {
-        const response = await fetch('template1.json');
+        const response = await fetch('template.json');
         data = await response.json();
 
         if(data.settings && data.settings.logo){
