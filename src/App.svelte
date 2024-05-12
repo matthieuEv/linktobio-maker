@@ -125,6 +125,8 @@
             width: 90%;
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            gap: 20px;
 
             #block{
                 width: 100%;
