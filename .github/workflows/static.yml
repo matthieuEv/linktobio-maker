@@ -42,6 +42,8 @@ jobs:
           ls -la examples/dist
           mkdir dist
           cp -r examples/dist/* dist
+          cp template1.json dist
+          cp template2.json dist
           ls -la dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
