@@ -5,13 +5,13 @@
 
     // Charger les données de manière asynchrone
     async function loadData() {
-        const response = await fetch('../template.json');
+        const response = await fetch('template.json');
         data = await response.json();
 
-        if(data.settings.logo){
+        if(data.settings && data.settings.logo){
             logo = data.settings.logo
         } else {
-            logo = "../public/logo.png"
+            logo = "logo.png"
         }
         
         if (data.content && Object.keys(data.content).length > 0) {
@@ -20,10 +20,10 @@
             content = {"My Links":data.quickLinks}
         }
 
-        if (data.settings.background && typeof data.settings.background === "string") {
-            if (/^#[0-9a-fA-F]{6}$/.test(data.settings.background)) {
+        if (data.settings && data.settings.background && typeof data.settings.background === "string") {
+            if (/^#[0-9a-fA-F]{6}$/.test(data.settings && data.settings.background)) {
                 document.body.style.backgroundColor = data.settings.background;
-            } else if (/^https?:\/\/[^\s]+/i.test(data.settings.background)) {
+            } else if (/^https?:\/\/[^\s]+/i.test(data.settings && data.settings.background)) {
                 document.body.style.backgroundImage = `url(${data.settings.background})`;
                 document.body.style.backgroundSize = "cover";
             }
@@ -31,13 +31,13 @@
             document.body.style.backgroundColor = "var(--black)";
         }
 
-        if (data.settings.primaryColor) {
+        if (data.settings && data.settings.primaryColor) {
             document.documentElement.style.setProperty('--primary-color', data.settings.primaryColor);
         }
-        if (data.settings.secondaryColor) {
+        if (data.settings && data.settings.secondaryColor) {
             document.documentElement.style.setProperty('--secondary-color', data.settings.secondaryColor);
         }
-        if (data.settings.tertiaryColor) {
+        if (data.settings && data.settings.tertiaryColor) {
             document.documentElement.style.setProperty('--tertiary-color', data.settings.tertiaryColor);
         }
     }
