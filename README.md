@@ -10,7 +10,7 @@
 
 # LinkToBio Maker
 
-A simple tool to generate a link to bio page for your social media.
+The easiest way to create a link-to-bio page for your social media!
 
 ## Example
 
