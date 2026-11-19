@@ -1,4 +1,4 @@
-FROM node:latest AS build 
+FROM node:22-bookworm AS build
 
 WORKDIR /app
 
@@ -10,8 +10,7 @@ COPY . .
 
 RUN npm run build
 
-#get the latest nginx
-FROM nginx:latest
+FROM nginx:1.30.7
 
 #copier le dossier /dist vers le container (/usr/share/nginx/html)
 COPY --from=build /app/dist/ /usr/share/nginx/html/
